@@ -1,132 +1,69 @@
 'use client';
 
 import { useState } from 'react';
-import styles from '../page.module.css';
+import styles from './page.module.css';
 
 export default function BudgetPage() {
+  const [totalBudget, setTotalBudget] = useState(2000);
   const [expenses, setExpenses] = useState([
     { id: 1, category: 'Transportation', description: 'Flight tickets', amount: 550 },
-    { id: 2, category: 'Accommodation', description: 'Hotel (5 nights)', amount: 750 },
-    { id: 3, category: 'Food', description: 'Restaurant meals', amount: 300 },
+    { id: 2, category: 'Accommodation', description: 'Hotel booking', amount: 750 },
+    { id: 3, category: 'Food', description: 'Restaurant budget', amount: 300 },
   ]);
 
-  const [budget, setBudget] = useState(2000);
-  const [newBudget, setNewBudget] = useState('');
+  const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  const remainingBudget = totalBudget - totalExpenses;
 
-  const [newExpense, setNewExpense] = useState({
-    category: '',
-    description: '',
-    amount: ''
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewExpense({
-      ...newExpense,
-      [name]: value
-    });
-  };
-
-  const handleBudgetChange = (e) => {
-    setNewBudget(e.target.value);
-  };
-
-  const updateBudget = () => {
-    if (newBudget) {
-      setBudget(parseFloat(newBudget));
-      setNewBudget('');
-    }
-  };
-
-  const addExpense = (e) => {
+  const handleAddExpense = (e) => {
     e.preventDefault();
-    if (!newExpense.category || !newExpense.description || !newExpense.amount) {
-      alert('Please fill in all required fields!');
-      return;
-    }
-    
-    const expense = {
+    const formData = new FormData(e.target);
+    const newExpense = {
       id: Date.now(),
-      ...newExpense,
-      amount: parseFloat(newExpense.amount)
+      category: formData.get('category'),
+      description: formData.get('description'),
+      amount: parseFloat(formData.get('amount'))
     };
-    
-    setExpenses([...expenses, expense]);
-    setNewExpense({
-      category: '',
-      description: '',
-      amount: ''
-    });
+    setExpenses([...expenses, newExpense]);
+    e.target.reset();
   };
 
-  const deleteExpense = (id) => {
+  const handleDeleteExpense = (id) => {
     setExpenses(expenses.filter(expense => expense.id !== id));
   };
 
-  // Calculate totals
-  const totalExpenses = expenses.reduce((total, expense) => total + expense.amount, 0);
-  const remainingBudget = budget - totalExpenses;
-  
-  // Group expenses by category
-  const expensesByCategory = expenses.reduce((acc, expense) => {
-    const category = expense.category;
-    if (!acc[category]) {
-      acc[category] = 0;
-    }
-    acc[category] += expense.amount;
+  const categoryTotals = expenses.reduce((acc, expense) => {
+    acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
     return acc;
   }, {});
 
   return (
-    <main className={styles.main}>
-      <h1>Travel Budget</h1>
-      
+    <div className={styles.budgetPage}>
+      <header className={styles.header}>
+        <h1>Travel Budget</h1>
+        <p>Budget Summary</p>
+      </header>
+
       <div className={styles.budgetSummary}>
-        <h2>Budget Summary</h2>
-        <div className={styles.budgetCards}>
-          <div className={styles.budgetCard}>
-            <h3>Total Budget</h3>
-            <p>${budget.toFixed(2)}</p>
-            <div className={styles.updateBudget}>
-              <input
-                type="number"
-                value={newBudget}
-                onChange={handleBudgetChange}
-                placeholder="Enter new budget"
-                min="0"
-              />
-              <button onClick={updateBudget}>Update</button>
-            </div>
-          </div>
-          
-          <div className={styles.budgetCard}>
-            <h3>Total Expenses</h3>
-            <p>${totalExpenses.toFixed(2)}</p>
-          </div>
-          
-          <div className={styles.budgetCard} style={{
-            backgroundColor: remainingBudget < 0 ? '#ffdddd' : remainingBudget < budget * 0.2 ? '#ffffdd' : '#ddffdd'
-          }}>
-            <h3>Remaining Budget</h3>
-            <p>${remainingBudget.toFixed(2)}</p>
-            {remainingBudget < 0 && <span className={styles.alert}>Over budget!</span>}
-          </div>
+        <div className={styles.summaryCard}>
+          <h2>Total Budget</h2>
+          <p>${totalBudget.toFixed(2)}</p>
+        </div>
+        <div className={styles.summaryCard}>
+          <h2>Total Expenses</h2>
+          <p>${totalExpenses.toFixed(2)}</p>
+        </div>
+        <div className={`${styles.summaryCard} ${styles.remaining}`}>
+          <h2>Remaining Budget</h2>
+          <p>${remainingBudget.toFixed(2)}</p>
         </div>
       </div>
-      
-      <div className={styles.expenseForm}>
+
+      <div className={styles.addExpense}>
         <h2>Add New Expense</h2>
-        <form onSubmit={addExpense}>
-          <div>
+        <form onSubmit={handleAddExpense} className={styles.form}>
+          <div className={styles.formGroup}>
             <label htmlFor="category">Category *</label>
-            <select
-              id="category"
-              name="category"
-              value={newExpense.category}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="">Select a category</option>
+            <select id="category" name="category" required>
               <option value="Transportation">Transportation</option>
               <option value="Accommodation">Accommodation</option>
               <option value="Food">Food</option>
@@ -135,70 +72,58 @@ export default function BudgetPage() {
               <option value="Other">Other</option>
             </select>
           </div>
-          
-          <div>
+          <div className={styles.formGroup}>
             <label htmlFor="description">Description *</label>
             <input
               type="text"
               id="description"
               name="description"
-              value={newExpense.description}
-              onChange={handleInputChange}
               required
+              placeholder="Enter expense description"
             />
           </div>
-          
-          <div>
+          <div className={styles.formGroup}>
             <label htmlFor="amount">Amount ($) *</label>
             <input
               type="number"
               id="amount"
               name="amount"
+              required
               min="0"
               step="0.01"
-              value={newExpense.amount}
-              onChange={handleInputChange}
-              required
+              placeholder="Enter amount"
             />
           </div>
-          
-          <button type="submit">Add Expense</button>
+          <button type="submit" className={styles.submitButton}>Add Expense</button>
         </form>
       </div>
-      
-      <div className={styles.expenseList}>
+
+      <div className={styles.expensesList}>
         <h2>Your Expenses</h2>
-        {expenses.length === 0 ? (
-          <p>No expenses recorded yet. Add your first expense to start tracking!</p>
-        ) : (
-          <>
-            <div className={styles.expenseCategories}>
-              <h3>Expenses by Category</h3>
-              <div className={styles.categoryBreakdown}>
-                {Object.entries(expensesByCategory).map(([category, amount]) => (
-                  <div key={category} className={styles.categoryItem}>
-                    <span>{category}</span>
-                    <span>${amount.toFixed(2)}</span>
-                  </div>
-                ))}
-              </div>
+        <div className={styles.categoryBreakdown}>
+          {Object.entries(categoryTotals).map(([category, total]) => (
+            <div key={category} className={styles.categoryCard}>
+              <h3>{category}</h3>
+              <p>${total.toFixed(2)}</p>
             </div>
-            
-            <div className={styles.expenseItems}>
-              <h3>All Expenses</h3>
-              {expenses.map(expense => (
-                <div key={expense.id} className={styles.expenseItem}>
-                  <div>
-                    <strong>{expense.category}</strong>: {expense.description}
-                    <span className={styles.expenseAmount}>${expense.amount.toFixed(2)}</span>
-                  </div>
-                  <button onClick={() => deleteExpense(expense.id)}>Delete</button>
-                </div>
-              ))}
+          ))}
+        </div>
+        {expenses.map(expense => (
+          <div key={expense.id} className={styles.expenseItem}>
+            <div className={styles.expenseDetails}>
+              <div className={styles.expenseCategory}>{expense.category}</div>
+              <div>{expense.description}</div>
+              <div className={styles.expenseAmount}>${expense.amount.toFixed(2)}</div>
             </div>
-          </>
-        )}
+            <button
+              onClick={() => handleDeleteExpense(expense.id)}
+              className={styles.deleteButton}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
       </div>
-    </main>
+    </div>
   );
 } 

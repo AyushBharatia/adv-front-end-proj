@@ -1,22 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Travel Ease - Travel Planning Application
+
+A modern web application for planning and managing your trips, built with Next.js and React.
+
+## Project Structure
+
+```
+travel-ease/
+├── app/                    # Next.js app directory
+│   ├── trips/             # Trips related pages
+│   │   ├── [id]/          # Dynamic trip detail pages
+│   │   └── page.js        # Trips listing page
+│   ├── layout.js          # Root layout
+│   └── globals.css        # Global styles
+├── components/            # Reusable components
+│   ├── TripCard/         # Trip card component
+│   ├── Navbar/           # Navigation component
+│   └── Footer/           # Footer component
+├── context/              # React context
+│   └── TripContext.js    # Trip state management
+└── public/               # Static assets
+    └── images/           # Image assets
+```
+
+## Components
+
+### TripCard
+A reusable card component for displaying trip information in a grid layout.
+
+### Navbar
+Navigation component with links to different sections of the application.
+
+### Footer
+Footer component with additional links and information.
+
+## State Management
+
+The application uses React Context for state management:
+
+- `TripContext`: Manages trip-related state including:
+  - List of trips
+  - Adding new trips
+  - Updating existing trips
+  - Deleting trips
+  - Getting trip details
+
+## Routing
+
+The application uses Next.js file-based routing:
+
+- `/trips`: Displays a list of all trips
+- `/trips/[id]`: Shows details for a specific trip
+
+## Styling
+
+The application uses CSS Modules for component-specific styles and CSS variables for theming:
+
+- Color scheme
+- Spacing
+- Typography
+- Responsive design
+
+## Features
+
+- View list of trips
+- View trip details
+- Add new trips
+- Edit existing trips
+- Delete trips
+- View trip itinerary
+- Track trip budget
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 

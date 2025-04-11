@@ -167,143 +167,343 @@ a.secondary {
 }
 
 /* Home Page Styles */
+.homePage {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: var(--background-color);
+}
+
 .hero {
-  background-color: #3498db;
-  color: white;
-  padding: 3rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 3rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/images/world-map.png') center/cover;
+  opacity: 0.1;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.heroContent {
+  max-width: 800px;
   text-align: center;
-  background-image: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+  color: white;
+  position: relative;
+  z-index: 1;
 }
 
 .heroContent h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.2;
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .heroContent p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.cta {
-  margin-top: 2rem;
-}
-
-.ctaButton {
-  display: inline-block;
-  background-color: #e74c3c;
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.ctaButton:hover {
-  background-color: #c0392b;
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-xl);
+  opacity: 0.9;
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
 }
 
 .features {
-  margin-bottom: 3rem;
-  text-align: center;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  background: var(--background-color);
 }
 
 .features h2 {
-  margin-bottom: 2rem;
+  text-align: center;
   font-size: 2rem;
-  color: #2c3e50;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--text-color);
 }
 
 .featureGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .featureCard {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  background: var(--background-alt);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal) ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
 }
 
 .featureCard:hover {
-  transform: translateY(-10px);
+  transform: translateY(-4px);
+}
+
+.featureIcon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+  background: var(--primary-color);
+  color: white;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-lg);
 }
 
 .featureCard h3 {
-  color: #3498db;
-  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
 }
 
 .featureCard p {
-  color: #7f8c8d;
-  margin-bottom: 1.5rem;
-}
-
-.featureCard a {
-  color: #3498db;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.featureCard a:hover {
-  text-decoration: underline;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0;
 }
 
 .howItWorks {
-  margin-bottom: 3rem;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  background: var(--background-alt);
   text-align: center;
 }
 
 .howItWorks h2 {
-  margin-bottom: 2rem;
   font-size: 2rem;
-  color: #2c3e50;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--text-color);
 }
 
 .steps {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
+  max-width: 1200px;
+  margin: 0 auto var(--spacing-2xl);
 }
 
 .step {
-  flex: 1;
-  min-width: 200px;
-  max-width: 300px;
-  position: relative;
+  background: var(--background-color);
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  text-align: left;
 }
 
 .stepNumber {
-  background-color: #3498db;
+  width: 32px;
+  height: 32px;
+  background: var(--primary-color);
   color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  margin: 0 auto 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  flex-shrink: 0;
 }
 
-.step h3 {
-  margin-bottom: 1rem;
-  color: #2c3e50;
+.stepContent h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-color);
 }
 
-.step p {
-  color: #7f8c8d;
+.stepContent p {
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.highlights {
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  background: var(--background-color);
+}
+
+.highlightGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.highlightCard {
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  background: var(--background-alt);
+  transition: transform var(--transition-normal) ease;
+  text-align: center;
+}
+
+.highlightCard:hover {
+  transform: translateY(-4px);
+}
+
+.highlightCard h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-color);
+}
+
+.highlightCard p {
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.cta {
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  text-align: center;
+  color: white;
+}
+
+.cta h2 {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.cta p {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-xl);
+  opacity: 0.9;
+}
+
+.ctaButton {
+  display: inline-block;
+  background: white;
+  color: var(--primary-color);
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--border-radius-full);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all var(--transition-normal) ease;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.secondaryButton {
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--border-radius-full);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all var(--transition-normal) ease;
+  margin-top: var(--spacing-xl);
+}
+
+.secondaryButton:hover {
+  transform: translateY(-2px);
+  background: var(--primary-dark);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.15;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .featureGrid,
+  .steps,
+  .highlightGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .heroContent h1 {
+    font-size: 2.5rem;
+  }
+
+  .heroContent p {
+    font-size: 1rem;
+  }
+
+  .featureGrid,
+  .steps,
+  .highlightGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .features h2,
+  .howItWorks h2,
+  .cta h2 {
+    font-size: 1.75rem;
+  }
+
+  .step {
+    padding: var(--spacing-lg);
+  }
+
+  .features,
+  .howItWorks,
+  .highlights,
+  .cta {
+    padding: var(--spacing-2xl) var(--spacing-md);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .features,
+  .highlightCard {
+    background-color: var(--background-color);
+  }
+
+  .featureCard {
+    background-color: var(--background-alt);
+  }
+
+  .howItWorks {
+    background-color: var(--background-color);
+  }
 }
 
 /* Trip Page Styles */
