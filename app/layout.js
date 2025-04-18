@@ -1,30 +1,38 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Navbar from '@/components/Navbar/Navbar'
-import Footer from '@/components/Footer/Footer'
-import { TripProvider } from '@/context/TripContext'
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import Navbar from '../components/Navbar/Navbar';
+import Footer from '../components/Footer/Footer';
+import { TripProvider } from '../contexts/TripContext';
+import { ItineraryProvider } from '../contexts/ItineraryContext';
+import { BudgetProvider } from '../contexts/BudgetContext';
+import { defaultMetadata } from './metadata';
 
-const inter = Inter({ subsets: ['latin'] })
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
-export const metadata = {
-  title: 'Travel Ease - Your Travel Planning Companion',
-  description: 'Plan your trips, manage itineraries, and track budgets all in one place',
-}
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata = defaultMetadata;
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <TripProvider>
-          <div className="app-container">
-            <Navbar />
-            <main className="main-content">
+          <ItineraryProvider>
+            <BudgetProvider>
+              <Navbar />
               {children}
-            </main>
-            <Footer />
-          </div>
+              <Footer />
+            </BudgetProvider>
+          </ItineraryProvider>
         </TripProvider>
       </body>
     </html>
-  )
+  );
 }
